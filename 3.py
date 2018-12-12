@@ -7,7 +7,6 @@
 
 
 def parsed_lines():
-    i = 0
     with open('3_input.txt') as f:
         for line in f:
             if not line.strip():

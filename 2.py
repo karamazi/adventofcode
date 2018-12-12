@@ -1,33 +1,32 @@
-def get_ids():
-	with open("2_input.txt") as f:
-		return f.readlines()
-		
-	
 from collections import Counter
 
 
-ids_list = get_ids()
+def get_ids():
+    with open("2_input.txt") as f:
+        for line in f:
+            yield line
 
-has_pair = 0
-has_triple = 0
-for obj_id in get_ids():
-	c = Counter(obj_id)
-	occurences = set(c.values())
-	has_pair += int(2 in occurences)
-	has_triple += int(3 in occurences)
-print(has_pair * has_triple)
 
+def get_checksum():
+    has_pair_count = 0
+    has_triple_count = 0
+    for obj_id in get_ids():
+        occurrences = set(Counter(obj_id).values())
+        has_pair_count += int(2 in occurrences)
+        has_triple_count += int(3 in occurrences)
+    return has_pair_count * has_triple_count
 
 
 def get_one_offs():
-	for visited, obj_id_1 in enumerate(ids_list):
-		n = len(obj_id_1)
-		for obj_id_2 in ids_list[visited:]:
-			diff_inds = [i for i in range(n) if obj_id_1[i] != obj_id_2[i]]
-			diff = sum(1 for _ in diff_inds)
-			if diff == 1:
-				i = diff_inds[0]
-				return obj_id_1[0:i] + obj_id_1[i+1:]
-				
-		
+    ids_list = list(get_ids())
+    for visited_ind, obj_id_1 in enumerate(ids_list):
+        n = len(obj_id_1)
+        for obj_id_2 in ids_list[visited_ind:]:
+            indexes_with_difference = [i for i in range(n) if obj_id_1[i] != obj_id_2[i]]
+            if len(indexes_with_difference) == 1:
+                i = indexes_with_difference[0]
+                return obj_id_1[0:i] + obj_id_1[i+1:]
+
+
+print(get_checksum())
 print(get_one_offs())

@@ -6,11 +6,12 @@ def get_list():
 		for line in f.readlines():
 			is_plus = line[0] == '+'
 			value = int(line[1:])
-			value = value if is_plus else -value
+			value *= 1 if is_plus else -1
 			items.append(value)
 	return items
-	
-def get_first_repated_freq():
+
+
+def get_first_repeated_frequency():
 	found = False
 	ind = 0
 	changes = get_list()
@@ -24,7 +25,6 @@ def get_first_repated_freq():
 	return frequency
 	
 
-	
 print('part1', sum(get_list()))
-print('part2', get_first_repated_freq())
+print('part2', get_first_repeated_frequency())
 
